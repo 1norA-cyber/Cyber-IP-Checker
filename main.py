@@ -22,7 +22,7 @@ def valid_ip (user_ip):
 def generate_report (user_ip):
      report = {'IP Address':user_ip, 'Country': 'UnKnown' ,
                'ISP' : 'UnKnown' , 'Risk' : 'UnKnown' ,
-               'Scan Time' : 'UnKnown' , 'Time' : 'UnKnown'}
+               'Scan Time' : 'UnKnown'}
      return report
 
 #print_report
