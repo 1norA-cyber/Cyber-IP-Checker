@@ -27,7 +27,7 @@ def generate_report (user_ip):
     data = response.json()
     report = {'IP Address':user_ip, 'Country': data.get('country','Unknown') ,
                'ISP' : data.get('isp','Unknown') , 'City' : data.get('city','Unknown'),
-             'Scan Time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),}
+             'Scan Date': datetime.now().strftime('%Y-%m-%d'),'Scan time': datetime.now().strftime('%H:%M:%S')}
     return report
 
 #print_report
@@ -36,10 +36,14 @@ def print_report (report):
 #Save report
 def save_report(report):
     filename= f"{report['IP Address']}_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-    new_report = open(f'reports/{filename}','w')
-    new_report.write(str(report))
-    new_report.close()
-    return filename
+    with open(f'reports/{filename}','w') as new_report:
+        new_report.write("Cyber_IP_Checker\n")
+        new_report.write("======================\n")
+        for key, value in report.items():
+            new_report.write(f"{key}: {value}\n")
+
+        print('file save successfully')
+
 #Run
 def main():
     while True:
