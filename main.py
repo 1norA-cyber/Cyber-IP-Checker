@@ -1,4 +1,6 @@
 import requests
+from datetime import datetime
+
 
 #git_ip
 def get_ip ():
@@ -23,19 +25,31 @@ def valid_ip (user_ip):
 def generate_report (user_ip):
     response = requests.get(f"http://ip-api.com/json/{user_ip}")
     data = response.json()
-    report = {'IP Address':user_ip, 'Country': data.get['country','Unknown'] ,
-               'ISP' : data.get['isp','Unknown'] , 'City' : data.get['city','Unknown']}
+    report = {'IP Address':user_ip, 'Country': data.get('country','Unknown') ,
+               'ISP' : data.get('isp','Unknown') , 'City' : data.get('city','Unknown'),
+             'Scan Time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),}
     return report
 
 #print_report
 def print_report (report):
     print(report)
-
+#Save report
+def save_report(report):
+    filename= f"{report['IP Address']}_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+    new_report = open(f'reports/{filename}','w')
+    new_report.write(str(report))
+    new_report.close()
+    return filename
 #Run
 def main():
-    user_ip = get_ip()
-    if valid_ip(user_ip) : print_report(generate_report(user_ip))
-    else:print("IP is not valid")
+    while True:
+        user_ip = get_ip()
+        if valid_ip(user_ip) :
+            reports = generate_report(user_ip)
+            print_report(reports)
+            save_report(reports)
+            break
+        else:print("IP is not valid")
 
 
 if __name__ == "__main__": main()
