@@ -1,0 +1,5 @@
+# Cyber IP Checker
+A Python-based cybersecurity project for analyzing IP addresses.
+
+## Status
+In Development 25/7/2026
